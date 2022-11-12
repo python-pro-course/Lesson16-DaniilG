@@ -35,7 +35,7 @@ def sign_up():
 
     sign_up_screen = Toplevel(main)
     sign_up_screen.title('Sign up')
-    main.geometry('200x200')
+    sign_up_screen.geometry('300x170')
 
     Label(sign_up_screen, text='Введите логин и пароль').grid(row=0, sticky=N, pady=10)
     Label(sign_up_screen, text='логин').grid(row=1, sticky=W)
@@ -50,6 +50,26 @@ def sign_up():
     Button(sign_up_screen, text='Sign up',font=('Calibri', 12), width=15, command=create_account).grid(row=3, sticky=N, pady=10)
 
 
+def log_in():
+    global s_up_login
+    global s_up_pass
+    s_up_login = StringVar()
+    s_up_pass = StringVar()
+
+    log_in_screen = Toplevel(main)
+    log_in_screen.title('Log in')
+    log_in_screen.geometry('300x170')
+
+    Label(log_in_screen, text='Введите логин и пароль').grid(row=0, sticky=N, pady=10)
+    Label(log_in_screen, text='логин').grid(row=1, sticky=W)
+    Label(log_in_screen, text='пароль').grid(row=2, sticky=W)
+
+    Entry(log_in_screen, textvariable=s_up_login).grid(row=1, column=1)
+    Entry(log_in_screen, textvariable=s_up_pass).grid(row=2, column=1)
+
+
+
+
 img = Image.open('data/images/bank.png')
 img = img.resize((170, 170))
 img = ImageTk.PhotoImage(img)
@@ -59,7 +79,7 @@ Label(main, image=img).pack(side=TOP)
 
 
 Button(main, text='Sign up',font=('Calibri', 12), width=15, command=sign_up).pack(side=TOP)
-Button(main, text='Log in',font=('Calibri', 12), width=15).pack(side=TOP)
+Button(main, text='Log in',font=('Calibri', 12), width=15, command=log_in).pack(side=TOP)
 
 
 main.mainloop()
