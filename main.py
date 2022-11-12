@@ -58,7 +58,7 @@ Label(main, text='Самый безопасный банк').pack(side=TOP)
 Label(main, image=img).pack(side=TOP)
 
 
-Button(main, text='Signe up',font=('Calibri', 12), width=15, command=sign_up).pack(side=TOP)
+Button(main, text='Sign up',font=('Calibri', 12), width=15, command=sign_up).pack(side=TOP)
 Button(main, text='Log in',font=('Calibri', 12), width=15).pack(side=TOP)
 
 
