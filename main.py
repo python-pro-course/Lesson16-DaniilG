@@ -13,7 +13,19 @@ class BankAccount:
     def create_user(self):
         if self.login == '' or self.password == '':
             notif.config(text='Необходимо заполнить поля', fg='red')
-
+            return
+        notif.config(text='', fg='red')
+        all_accounts = os.listdir()
+        for name in all_accounts:
+            if name == self.login:
+                notif.config(text='твой аккаунт уже существует', fg='red')
+                return
+        notif.config(text='', fg='red')
+        with open(self.login, 'w') as f:
+            f.write(f'{self.login}\n'
+                    f'{self.password}\n'
+                    f'{self.balance}')
+        notif.config(text='Аккаунт успешно создан', fg='green')
 
 
 
@@ -50,11 +62,90 @@ def sign_up():
     Button(sign_up_screen, text='Sign up',font=('Calibri', 12), width=15, command=create_account).grid(row=3, sticky=N, pady=10)
 
 
-def log_in():
-    global s_up_login
-    global s_up_pass
-    s_up_login = StringVar()
-    s_up_pass = StringVar()
+#\\\
+
+def up_money():
+    with open(login, 'r') as f:
+        file_list = f.read().split('\n')
+        up = money_sum.get()
+        num = int(file_list[2])
+        num  += up
+    with open(login, 'w') as f:
+
+        f.write(f'{file_list[0]}\n'
+                f'{file_list[1]}\n'
+                f'{num}')
+    money_screen.destroy()
+
+
+
+
+def deposit():
+    global money_sum
+    global money_screen
+    money_sum = IntVar()
+
+    money_screen= Toplevel(log_session_screen)
+    money_screen.geometry('300x100')
+
+    Label(money_screen, text='введите сумму', font=('Calibri', 12)).grid(row=0, column=0, pady=10)
+
+    Entry(money_screen, textvariable=money_sum).grid(row=1, column=1)
+
+    Button(money_screen, text='внести', font=('Calibri', 12), width=15, command=up_money).grid(row=1, column=0)
+
+
+def print_sum():
+    pr_s = Toplevel(log_session_screen)
+    pr_s.geometry('100x100')
+
+    with open(login, 'r') as f:
+        file_list = f.read().split('\n')
+
+        Label(pr_s, text=f'{file_list[2]}', font=('Calibri', 12)).grid(pady=10)
+
+#///
+
+
+def log_in_account():
+    global log_session_screen
+    global login
+
+    login = log_login.get()
+    password = log_pass.get()
+    all_accounts = os.listdir()
+    for name in all_accounts:
+        if name == login:
+
+            with open(login, 'r') as f:
+
+                file_list = f.read().split('\n')
+                if file_list[1] == password:
+                    log_in_screen.destroy()
+                    log_session_screen = Toplevel(main)
+                    log_session_screen.title('Личный кабинет')
+                    log_session_screen.geometry('300x250')
+                    Button(log_session_screen, text='Баланс',font=('Calibri', 12), width=15, command=print_sum).pack(side=TOP, pady=10)
+                    Button(log_session_screen, text='Внести деньги', font=('Calibri', 12), width=15, command=deposit).pack(side=TOP,pady=10)
+
+                    Button(log_session_screen, text='Вывести деньги', font=('Calibri', 12), width=15, command=N).pack(side=TOP, pady=10)
+
+                    print('Вы успешно авторизованы')
+                    return
+                else:
+                    print('Неверный пароль')
+                    return
+    print('Такого аккаунта не существует')
+
+
+
+def login():
+    global log_login
+    global log_pass
+    global notif
+    global log_in_screen
+    log_login = StringVar()
+    log_pass = StringVar()
 
     log_in_screen = Toplevel(main)
     log_in_screen.title('Log in')
@@ -64,8 +155,14 @@ def log_in():
     Label(log_in_screen, text='логин').grid(row=1, sticky=W)
     Label(log_in_screen, text='пароль').grid(row=2, sticky=W)
 
-    Entry(log_in_screen, textvariable=s_up_login).grid(row=1, column=1)
-    Entry(log_in_screen, textvariable=s_up_pass).grid(row=2, column=1)
+    Entry(log_in_screen, textvariable=log_login).grid(row=1, column=1)
+    Entry(log_in_screen, textvariable=log_pass, ).grid(row=2, column=1)
+
+    notif = Label(log_in_screen, font=('Calibri', 12))
+    notif.grid(row=4, sticky=N, pady=10)
+
+    Button(log_in_screen, text='Log in', font=('Calibri', 12), width=15, command=log_in_account).grid(row=3, sticky=N,pady=10)
+
 
 
 
@@ -79,7 +176,7 @@ Label(main, image=img).pack(side=TOP)
 
 
 Button(main, text='Sign up',font=('Calibri', 12), width=15, command=sign_up).pack(side=TOP)
-Button(main, text='Log in',font=('Calibri', 12), width=15, command=log_in).pack(side=TOP)
+Button(main, text='Log in',font=('Calibri', 12), width=15, command=login).pack(side=TOP)
 
 
 main.mainloop()
