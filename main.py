@@ -64,12 +64,13 @@ def sign_up():
 
 #\\\
 
-def up_money():
+
+def up_money(one=1):
     with open(login, 'r') as f:
         file_list = f.read().split('\n')
         up = money_sum.get()
         num = int(file_list[2])
-        num  += up
+        num  += (up * one)
     with open(login, 'w') as f:
 
         f.write(f'{file_list[0]}\n'
@@ -78,6 +79,8 @@ def up_money():
     money_screen.destroy()
 
 
+def pl():up_money()
+def mi():up_money(-1)
 
 
 def deposit():
@@ -86,23 +89,24 @@ def deposit():
     money_sum = IntVar()
 
     money_screen= Toplevel(log_session_screen)
-    money_screen.geometry('300x100')
+    money_screen.geometry('320x88')
 
-    Label(money_screen, text='введите сумму', font=('Calibri', 12)).grid(row=0, column=0, pady=10)
+    Label(money_screen, text='Введите сумму', font=('Calibri', 14)).grid(row=0, column=0, pady=10)
 
-    Entry(money_screen, textvariable=money_sum).grid(row=1, column=1)
+    Entry(money_screen, textvariable=money_sum).grid(row=0, column=1)
 
-    Button(money_screen, text='внести', font=('Calibri', 12), width=15, command=up_money).grid(row=1, column=0)
+    Button(money_screen, text='Пополнить', font=('Calibri', 14), width=15, command=pl).grid(row=1, column=0)
+    Button(money_screen, text='Снять', font=('Calibri', 14), width=15, command=mi).grid(row=1, column=1)
 
 
 def print_sum():
     pr_s = Toplevel(log_session_screen)
-    pr_s.geometry('100x100')
+    pr_s.geometry('150x90')
 
     with open(login, 'r') as f:
         file_list = f.read().split('\n')
 
-        Label(pr_s, text=f'{file_list[2]}', font=('Calibri', 12)).grid(pady=10)
+        Label(pr_s, text=f'{file_list[2]}', font=('Calibri', 18)).grid(pady=10, padx=20)
 
 #///
 
@@ -124,11 +128,11 @@ def log_in_account():
                     log_in_screen.destroy()
                     log_session_screen = Toplevel(main)
                     log_session_screen.title('Личный кабинет')
-                    log_session_screen.geometry('300x250')
+                    log_session_screen.geometry('300x170')
                     Button(log_session_screen, text='Баланс',font=('Calibri', 12), width=15, command=print_sum).pack(side=TOP, pady=10)
-                    Button(log_session_screen, text='Внести деньги', font=('Calibri', 12), width=15, command=deposit).pack(side=TOP,pady=10)
+                    Button(log_session_screen, text='Изменить баланс', font=('Calibri', 12), width=15, command=deposit).pack(side=TOP,pady=10)
 
-                    Button(log_session_screen, text='Вывести деньги', font=('Calibri', 12), width=15, command=N).pack(side=TOP, pady=10)
+                    # Button(log_session_screen, text='Вывести деньги', font=('Calibri', 12), width=15, command=N).pack(side=TOP, pady=10)
 
                     print('Вы успешно авторизованы')
                     return
@@ -152,8 +156,8 @@ def login():
     log_in_screen.geometry('300x170')
 
     Label(log_in_screen, text='Введите логин и пароль').grid(row=0, sticky=N, pady=10)
-    Label(log_in_screen, text='логин').grid(row=1, sticky=W)
-    Label(log_in_screen, text='пароль').grid(row=2, sticky=W)
+    Label(log_in_screen, text='Логин').grid(row=1, sticky=W)
+    Label(log_in_screen, text='Пароль').grid(row=2, sticky=W)
 
     Entry(log_in_screen, textvariable=log_login).grid(row=1, column=1)
     Entry(log_in_screen, textvariable=log_pass, ).grid(row=2, column=1)
