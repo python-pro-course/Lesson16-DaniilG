@@ -89,7 +89,7 @@ def deposit():
     money_sum = IntVar()
 
     money_screen= Toplevel(log_session_screen)
-    money_screen.geometry('320x88')
+    money_screen.geometry('320x90')
 
     Label(money_screen, text='Введите сумму', font=('Calibri', 14)).grid(row=0, column=0, pady=10)
 
