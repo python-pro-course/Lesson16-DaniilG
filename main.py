@@ -1,6 +1,7 @@
 from tkinter import *
 import os
 from PIL import Image, ImageTk
+from log_in_window import LoginWindow
 
 from sign_up_window import SignUpWindow
 
@@ -18,10 +19,13 @@ class App(Tk):
         Label(self, image=self.img).pack(side=TOP)
 
         Button(self, text='Sign Up', font=('Calibri', 12), width=15, command=self.sign_up_window).pack(side=TOP, pady=10)
-        Button(self, text='Log In', font=('Calibri', 12), width=15).pack(side=TOP)
+        Button(self, text='Log In', font=('Calibri', 12), width=15, command=self.log_in_window).pack(side=TOP)
 
     def sign_up_window(self):
         SignUpWindow(self)
+
+    def log_in_window(self):
+        LoginWindow(self)
 
 
 
