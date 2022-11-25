@@ -32,7 +32,6 @@ class SignUpWindow(Toplevel):
         name = self.name.get()
         login = self.login.get()
         password = self.password.get()
-        all_accounts = os.listdir()
 
         if name == '' or login == '' or password == '':
             self.notif.config(text='Необходимо заполнить все поля', fg='red')
@@ -40,7 +39,7 @@ class SignUpWindow(Toplevel):
         self.notif.config(text='', fg='red')
         all_accounts = os.listdir()
         for line in all_accounts:
-            if line == self.login:
+            if line == login:
                 self.notif.config(text='Такой аккаунт уже существует', fg='red')
                 return
         self.notif.config(text='', fg='red')
