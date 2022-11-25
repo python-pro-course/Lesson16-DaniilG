@@ -16,7 +16,8 @@ class LoginSession(Toplevel):
 
         Label(self, text=f'Здравствуйте, {self.name}',font=('Calibri', 13)).pack(side=TOP)
 
-        Label(self, text=f'Ваш, {self.balance}', font=('Calibri', 13)).pack(side=TOP)
+        self.text_balance = Label(self, text=f'Ваш баланс, {self.balance}', font=('Calibri', 13))
+        self.text_balance.pack(side=TOP)
 
         Button(self, text='Deposit', font=('Calibri', 12), width=15, command=self.update_balance).pack(side=TOP, pady=10)
     def get_current_balance(self):
@@ -26,5 +27,8 @@ class LoginSession(Toplevel):
             balance = f[3]
         return balance
 
+    def new_balance(self, new):
+        self.balance = new
+
     def update_balance(self):
-        UpdateBalance(self.parent, self.name, self.login, self.password, self.balance)
+        UpdateBalance(self.parent, self.name, self.login, self.password, self.balance, self.text_balance)
